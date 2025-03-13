@@ -1,0 +1,39 @@
+name: lint, test and deploy on push
+
+on: push
+
+jobs: 
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Get code
+        uses: actions/checkout@v4
+
+      - name: Install depencencies
+        run: npm install
+    
+      - name: run the lint
+        run: npm run lint
+  test:
+    needs: lint
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Get code
+        uses: actions/checkout@v4
+
+      - name: Install depencencies
+        run: npm run install
+
+      - name: run the test
+        run: npm run test
+
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+
+    steps: 
+      - name: deploy the script
+        run: |
+          echo "deploying"
